@@ -1,0 +1,15 @@
+node_modules/
+.next/
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+.env
+.venv/
+venv/
+terraform_memory/
+*.safetensors
+*.pt
+*.pth
+*.bin

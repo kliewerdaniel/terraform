@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
+
+@layer base {
+  :root {
+    --color-bg: 0 0 0;
+    --color-surface: 18 18 20;
+    --color-border: 38 38 41;
+    --color-text: 227 227 225;
+    --color-text-muted: 148 148 145;
+    --color-accent: 228 147 65;
+    --color-accent-dim: 180 110 40;
+    --color-amber-glow: 228 147 65;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(228, 147, 65, 0.3);
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(228, 147, 65, 0.3);
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-lg;
+  }
+
+  .glass-panel-strong {
+    @apply bg-black/60 backdrop-blur-2xl border border-white/[0.08] rounded-lg shadow-2xl;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 40px rgba(228, 147, 65, 0.15), 0 0 80px rgba(228, 147, 65, 0.05);
+  }
+
+  .border-glow {
+    box-shadow: 0 0 20px rgba(228, 147, 65, 0.08), inset 0 0 20px rgba(228, 147, 65, 0.03);
+  }
+
+  .typing-cursor::after {
+    content: "▊";
+    animation: blink 1s step-end infinite;
+    color: rgb(var(--color-accent));
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .node-ecology { @apply fill-sage-400/80 stroke-sage-400; }
+  .node-climate { @apply fill-dusk-400/80 stroke-dusk-400; }
+  .node-design { @apply fill-ember-400/80 stroke-ember-400; }
+  .node-site { @apply fill-bedrock-400/80 stroke-bedrock-400; }
+  .node-experience { @apply fill-amber-300/80 stroke-amber-300; }
+  .node-human { @apply fill-rose-300/80 stroke-rose-300; }
+  .node-conservation { @apply fill-cyan-300/80 stroke-cyan-300; }
+  .node-engineering { @apply fill-zinc-400/80 stroke-zinc-400; }
+  .node-constraint { @apply fill-red-400/60 stroke-red-400; }
+  .node-built { @apply fill-violet-400/80 stroke-violet-400; }
+}
