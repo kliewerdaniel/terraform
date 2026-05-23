@@ -2,13 +2,8 @@
 
 import { useCallback, useMemo } from "react";
 import ReactFlow, {
-  Node,
-  Edge,
   Background,
   Controls,
-  MiniMap,
-  useNodesState,
-  useEdgesState,
   Handle,
   Position,
   NodeProps,
@@ -69,11 +64,13 @@ function TerraformNode({ data }: NodeProps) {
 }
 
 const nodeTypes = { terraform: TerraformNode };
+const edgeTypes = {};
+const proOptions = { hideAttribution: true };
 
 export default function ContextGraph() {
   const graph = useTerraformStore((s) => s.graph);
 
-  const initialNodes: Node[] = useMemo(
+  const nodes = useMemo(
     () =>
       graph?.nodes.map((n) => ({
         id: n.id,
@@ -89,7 +86,7 @@ export default function ContextGraph() {
     [graph]
   );
 
-  const initialEdges: Edge[] = useMemo(
+  const edges = useMemo(
     () =>
       graph?.edges.map((e) => ({
         id: `${e.source}-${e.target}`,
@@ -110,31 +107,24 @@ export default function ContextGraph() {
     [graph]
   );
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-  // Sync when graph changes
-  if (JSON.stringify(nodes.map((n) => n.id).sort()) !== JSON.stringify(initialNodes.map((n) => n.id).sort())) {
-    // Use effect-like sync
-    setTimeout(() => {
-      setNodes(initialNodes);
-      setEdges(initialEdges);
-    }, 0);
-  }
+  const onError = useCallback((id: string, message?: string) => {
+    if (id === '002') return;
+    if (message) console.warn(`[React Flow]: ${message}`);
+  }, []);
 
   return (
     <div className="w-full h-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitView
         minZoom={0.3}
         maxZoom={2}
         className="bg-transparent"
-        proOptions={{ hideAttribution: true }}
+        proOptions={proOptions}
+        onError={onError}
       >
         <Background color="rgba(255,255,255,0.03)" gap={24} />
         <Controls

@@ -111,7 +111,7 @@ export default function InterviewPanel() {
               <motion.div
                 className="h-full bg-ember-500/30"
                 initial={{ width: "0%" }}
-                animate={{ width: `${(interviewAnswered / interviewTotal) * 100}%` }}
+                animate={{ width: `${interviewTotal > 0 ? (interviewAnswered / interviewTotal) * 100 : 0}%` }}
                 transition={{ duration: 0.6 }}
               />
             </div>
