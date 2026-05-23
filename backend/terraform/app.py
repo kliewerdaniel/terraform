@@ -5,7 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from terraform.config import settings
+from pydantic import BaseModel
 from terraform.models.schemas import ConversationRequest, KnowledgeGraph
+
+
+class AnswerRequest(BaseModel):
+    question: str
+    answer: str
 from terraform.orchestration.director import OrchestrationDirector
 from terraform.streaming.sse import SSEStream
 from terraform.conversation.interviewer import Interviewer
@@ -61,10 +67,10 @@ async def get_interview_question():
 
 
 @app.post("/api/interview/answer")
-async def submit_interview_answer(question: str, answer: str):
+async def submit_interview_answer(body: AnswerRequest):
     if not interviewer:
         raise HTTPException(status_code=503, detail="Interviewer not initialized")
-    interviewer.record_answer(question, answer)
+    interviewer.record_answer(body.question, body.answer)
     if interviewer.is_complete():
         profile = await interviewer.interpret()
         if director:
